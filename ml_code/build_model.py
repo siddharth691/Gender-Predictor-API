@@ -10,7 +10,6 @@ import logging
 
 
 if __name__ == "__main__":
-
     #Create logging for build model function
     logger = logging.getLogger('build_model')
     logger.setLevel(logging.INFO)
@@ -20,8 +19,8 @@ if __name__ == "__main__":
 
     
     # Load cleaned data
-    fx = FeatureExtraction(cleanedData)
     cleanedData = pd.read_csv('CleanedData.csv', header =0)
+    fx = FeatureExtraction.FeatureExtraction(cleanedData)
     featureSet = fx.extractFeatures()
     random.shuffle(featureSet)
 
