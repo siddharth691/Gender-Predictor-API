@@ -3,13 +3,15 @@ Request Handlers
 """
 
 import tornado.web
+import logging
 from tornado import concurrent
 from tornado import gen
 from concurrent.futures import ThreadPoolExecutor
 
 from app.base_handler import BaseApiHandler
 from app.settings import MAX_MODEL_THREAD_POOL
-import ml_code.FeatureExtraction as FeatureExtraction
+from ml_code.FeatureExtraction import FeatureExtraction
+logger = logging.getLogger('app')
 
 class IndexHandler(tornado.web.RequestHandler):
     """APP is live"""
@@ -23,6 +25,7 @@ class IndexHandler(tornado.web.RequestHandler):
 
 class GenderPredictionHandler(BaseApiHandler):
 
+    
     _thread_pool = ThreadPoolExecutor(max_workers=MAX_MODEL_THREAD_POOL)
 
     def initialize(self, model, *args, **kwargs):
@@ -50,6 +53,7 @@ class GenderPredictionHandler(BaseApiHandler):
         X = []
         for item in data:
             record  = (fx._nameFeatures(item.get("first_name")))
+            logger.info("Responding to name : %s", item.get("first_name"))
             X.append(record)
 
         results = yield self._blocking_predict(X)

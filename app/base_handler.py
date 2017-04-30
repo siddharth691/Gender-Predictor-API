@@ -10,7 +10,7 @@ import tornado.escape
 
 from app.exceptions import ApplicationError, RouteNotFound, ServerError
 
-logger = logging.getLogger("app")
+logger = logging.getLogger('app')
 
 class BaseApiHandler(tornado.web.RequestHandler):
 
