@@ -62,14 +62,7 @@ class GenderPredictionHandler(BaseApiHandler):
 
 
 class ModelUpdateHandler(BaseApiHandler):
-
-
 	_thread_pool = ThreadPoolExecutor(max_workers=MAX_MODEL_THREAD_POOL)
-
-	def initialize(self, model, *args, **kwargs):
-		
-        
-
     @concurrent.run_on_executor(executor='_thread_pool')
     def _blocking_update(self, X):
         results = []
@@ -85,7 +78,8 @@ class ModelUpdateHandler(BaseApiHandler):
 	        		file.write(nameGender[1] + ','+ nameGender[2]+'\n')
 	            target_show = 'Successfully updated the update data'
 		        results.append(target_show)
-        		return results
+        
+        return results
 
 
     @gen.coroutine
