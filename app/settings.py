@@ -12,3 +12,4 @@ _CUR_DIR = os.path.dirname(os.path.realpath(__file__))
 MODEL_DIR = os.path.join(_CUR_DIR, "..", "model")
 
 MAX_MODEL_THREAD_POOL = 10
+MAX_UPDATE_MODEL_TIME = 86400000

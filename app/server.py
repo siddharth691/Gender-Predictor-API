@@ -9,8 +9,11 @@ from tornado.options import options
 from sklearn.externals import joblib
 
 from app.settings import MODEL_DIR
-from app.handler import IndexHandler, GenderPredictionHandler
+from app.settings import MAX_UPDATE_MODEL_TIME
+from app.handler import IndexHandler, GenderPredictionHandler, ModelUpdateHandler
 
+from ml_code.update_model import update_model
+import time
 
 MODELS = {}
 
@@ -34,6 +37,7 @@ def main():
         (r"/$", IndexHandler),
         (r"/api/gender/(?P<action>[a-zA-Z]+)?", GenderPredictionHandler,
             dict(model=MODELS["gender"]))
+        (r"/api/gender/update/(?U<action>[a-zA-Z]+)?", ModelUpdateHandler)
     ]
 
     # Create Tornado application
@@ -41,6 +45,10 @@ def main():
         urls,
         debug=options.debug,
         autoreload=options.debug) 
+
+    #Creating a model update periodic callback
+    logger.info("Updating the model at datetime: {}".format(time.time()))
+    tornado.ioloop.PeriodicCallback(update_model(ml_code_loc='../ml_code/'), MAX_UPDATE_MODEL_TIME).start()
 
     # Start Server
     logger.info("Starting App on Port: {} with Debug Mode: {}".format(options.port, options.debug))
