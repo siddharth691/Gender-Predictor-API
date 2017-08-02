@@ -10,7 +10,12 @@ import logging
 
 
 def update_model(ml_code_loc)
-    
+    #Create logging for update model function
+    logger = logging.getLogger('update_model')
+    logger.setLevel(logging.INFO)
+
+    FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    logging.basicConfig(filename = 'update_model.log', format=FORMAT)
     # Load cleaned data
     cleanedData = pd.read_csv('CleanedData.csv', header =0)
     #Load update data
