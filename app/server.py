@@ -29,6 +29,11 @@ def main():
 
 
     logger = logging.getLogger('app')
+    logger.setLevel(logging.INFO)
+
+    FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    logging.basicConfig(filename = './app.log', format=FORMAT)
+
     # Load ML Models
     logger.info("Loading Gender Prediction Model...")
     MODELS["gender"] = load_model(os.path.join(MODEL_DIR, "model.pkl"))
