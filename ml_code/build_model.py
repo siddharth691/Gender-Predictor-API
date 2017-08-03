@@ -15,11 +15,11 @@ if __name__ == "__main__":
     logger.setLevel(logging.INFO)
 
     FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-    logging.basicConfig(filename = 'build_model.log', format=FORMAT)
+    logging.basicConfig(filename = '/home/ubuntu/Gender-Predictor-API/ml_code/build_model.log', format=FORMAT)
 
     
     # Load cleaned data
-    cleanedData = pd.read_csv('CleanedData.csv', header =0)
+    cleanedData = pd.read_csv('/home/ubuntu/Gender-Predictor-API/ml_code/CleanedData.csv', header =0)
     fx = FeatureExtraction.FeatureExtraction(cleanedData)
     featureSet = fx.extractFeatures()
     random.shuffle(featureSet)
@@ -28,7 +28,7 @@ if __name__ == "__main__":
     clf = SklearnClassifier(LinearSVC())  
     clf.train(featureSet)
 
-    _CUR_DIR = os.path.dirname(os.path.realpath(__file__))
+    _CUR_DIR = '/home/ubuntu/Gender-Predictor-API/ml_code'
     _SERIALIZATION_DIR = os.path.join(_CUR_DIR, "..", "model")
 
     if not os.path.exists(_SERIALIZATION_DIR):

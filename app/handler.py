@@ -60,9 +60,12 @@ class GenderPredictionHandler(BaseApiHandler):
         results = yield self._blocking_predict(X)
         self.respond(results)
 
-
+	
 class ModelUpdateHandler(BaseApiHandler):
     _thread_pool = ThreadPoolExecutor(max_workers=MAX_MODEL_THREAD_POOL)
+    
+    def initialize(self, *args, **kwargs):
+        super().initialize(*args, **kwargs)
     
     @concurrent.run_on_executor(executor='_thread_pool')
     def _blocking_update(self, X):

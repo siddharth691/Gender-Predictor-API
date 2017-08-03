@@ -18,6 +18,7 @@ class BaseApiHandler(tornado.web.RequestHandler):
     def post(self, action):
         try:
             # Fetch appropriate handler
+            print(action)
             if not hasattr(self, str(action)):
                 raise RouteNotFound(action)
 

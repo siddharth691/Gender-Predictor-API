@@ -17,9 +17,9 @@ def update_model(ml_code_loc):
     FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
     logging.basicConfig(filename = 'update_model.log', format=FORMAT)
     # Load cleaned data
-    cleanedData = pd.read_csv('./CleanedData.csv', header =0)
+    cleanedData = pd.read_csv('/home/ubuntu/Gender-Predictor-API/ml_code/CleanedData.csv', header =0)
     #Load update data
-    update_data = pd.read_csv(ml_code_loc+'update_data.csv', header =None, names=['name', 'gender'])
+    update_data = pd.read_csv('/home/ubuntu/Gender-Predictor-API/ml_code/update_data.csv', header =None, names=['name', 'gender'])
     
     #concatenate cleaned data and update data
 
