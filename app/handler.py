@@ -74,17 +74,15 @@ class ModelUpdateHandler(BaseApiHandler):
 
             if(nameGender[0]!=true_pass):
 
-				logger.info(" Rejecting update request because of authentication error")
+                logger.info(" Rejecting update request because of authentication error")
         	
-				raise AuthError
+                raise AuthError
             
-	    	else:
-
-	        	with open('../ml_code/update_data.csv', 'a') as file:
-
-			    file.write(nameGender[1] + ','+ nameGender[2]+'\n')
-		    target_show = 'Successfully updated the update data'
-			results.append(target_show)
+            else:
+                with open('../ml_code/update_data.csv', 'a') as file:
+                    file.write(nameGender[1] + ','+ nameGender[2]+'\n')
+                target_show = 'Successfully updated the update data'
+                results.append(target_show)
         
         return results
 
@@ -97,7 +95,7 @@ class ModelUpdateHandler(BaseApiHandler):
 
 
         for item in data:
-        	password = item.get("password")
+            password = item.get("password")
             first_name  = item.get("first_name")
             true_gender = item.get("gender")
             X.append([password, first_name, true_gender])

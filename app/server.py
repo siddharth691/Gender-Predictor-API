@@ -41,8 +41,8 @@ def main():
     urls = [
         (r"/$", IndexHandler),
         (r"/api/gender/(?P<action>[a-zA-Z]+)?", GenderPredictionHandler,
-            dict(model=MODELS["gender"]))
-        (r"/api/gender/update/(?U<action>[a-zA-Z]+)?", ModelUpdateHandler)
+            dict(model=MODELS["gender"])),
+        (r"/api/gender/(?P<action>[a-zA-Z]+)?", ModelUpdateHandler)
     ]
 
     # Create Tornado application

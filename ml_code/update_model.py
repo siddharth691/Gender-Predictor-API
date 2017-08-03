@@ -4,12 +4,12 @@ import random
 from sklearn.svm import LinearSVC
 from nltk.classify.scikitlearn import SklearnClassifier
 from sklearn.externals import joblib
-import FeatureExtraction
+from ml_code import FeatureExtraction
 import os
 import logging
 
 
-def update_model(ml_code_loc)
+def update_model(ml_code_loc):
     #Create logging for update model function
     logger = logging.getLogger('update_model')
     logger.setLevel(logging.INFO)
@@ -17,7 +17,7 @@ def update_model(ml_code_loc)
     FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
     logging.basicConfig(filename = 'update_model.log', format=FORMAT)
     # Load cleaned data
-    cleanedData = pd.read_csv('CleanedData.csv', header =0)
+    cleanedData = pd.read_csv('./CleanedData.csv', header =0)
     #Load update data
     update_data = pd.read_csv(ml_code_loc+'update_data.csv', header =None, names=['name', 'gender'])
     
