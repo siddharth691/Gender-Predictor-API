@@ -12,7 +12,7 @@ from app.base_handler import BaseApiHandler
 from app.exceptions import AuthError
 from app.settings import MAX_MODEL_THREAD_POOL
 from ml_code.FeatureExtraction import FeatureExtraction
-logger = logging.getLogger('app')
+
 
 class IndexHandler(tornado.web.RequestHandler):
     """APP is live"""
@@ -26,7 +26,7 @@ class IndexHandler(tornado.web.RequestHandler):
 
 class GenderPredictionHandler(BaseApiHandler):
 
-    
+      
     _thread_pool = ThreadPoolExecutor(max_workers=MAX_MODEL_THREAD_POOL)
 
     def initialize(self, model, *args, **kwargs):
@@ -62,6 +62,9 @@ class GenderPredictionHandler(BaseApiHandler):
 
 	
 class ModelUpdateHandler(BaseApiHandler):
+   
+ 
+
     _thread_pool = ThreadPoolExecutor(max_workers=MAX_MODEL_THREAD_POOL)
     
     def initialize(self, *args, **kwargs):

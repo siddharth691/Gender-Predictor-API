@@ -27,11 +27,7 @@ def main():
     options.parse_command_line()
 
 
-    logger = logging.getLogger('app')
-    logger.setLevel(logging.INFO)
-
-    FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-    logging.basicConfig(filename = '/home/ubuntu/Gender-Predictor-API/app/app.log', format=FORMAT)
+    logger = logging.getLogger('server')
 
     # Load ML Models
     logger.info("Loading Gender Prediction Model...")

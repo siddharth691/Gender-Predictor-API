@@ -7,18 +7,19 @@ import traceback
 import logging
 import tornado.web
 import tornado.escape
-
-from app.exceptions import ApplicationError, RouteNotFound, ServerError
+import tornado.options
 
 logger = logging.getLogger('app')
 
-class BaseApiHandler(tornado.web.RequestHandler):
+from app.exceptions import ApplicationError, RouteNotFound, ServerError
 
+class BaseApiHandler(tornado.web.RequestHandler):
+    
+    
     @tornado.web.asynchronous
     def post(self, action):
         try:
             # Fetch appropriate handler
-            print(action)
             if not hasattr(self, str(action)):
                 raise RouteNotFound(action)
 
@@ -42,4 +43,5 @@ class BaseApiHandler(tornado.web.RequestHandler):
             "data": data
         }))
         self.finish()
+
 
