@@ -62,22 +62,29 @@ class GenderPredictionHandler(BaseApiHandler):
 
 
 class ModelUpdateHandler(BaseApiHandler):
-	_thread_pool = ThreadPoolExecutor(max_workers=MAX_MODEL_THREAD_POOL)
+    _thread_pool = ThreadPoolExecutor(max_workers=MAX_MODEL_THREAD_POOL)
+    
     @concurrent.run_on_executor(executor='_thread_pool')
     def _blocking_update(self, X):
+	
         results = []
-        pass_file = open('pass_file.txt', 'r')
-    	true_pass = pass_file.read()
+        true_pass = open('pass_file.txt', 'r').read()
+        
         for nameGender in X:
-        	if(nameGender[0]!=true_pass):
-        		logger.info(" Rejecting update request because of authentication error")
-        		raise AuthError
-        	else:
 
-	        	with open('../ml_code/update_data.csv', 'a') as file:
-	        		file.write(nameGender[1] + ','+ nameGender[2]+'\n')
-	            target_show = 'Successfully updated the update data'
-		        results.append(target_show)
+            if(nameGender[0]!=true_pass):
+
+		logger.info(" Rejecting update request because of authentication error")
+        	
+		raise AuthError
+            
+	    else:
+
+	        with open('../ml_code/update_data.csv', 'a') as file:
+
+		    file.write(nameGender[1] + ','+ nameGender[2]+'\n')
+	        target_show = 'Successfully updated the update data'
+		results.append(target_show)
         
         return results
 
@@ -90,7 +97,7 @@ class ModelUpdateHandler(BaseApiHandler):
 
 
         for item in data:
-        	password = item.get("password")
+            password = item.get("password")
             first_name  = item.get("first_name")
             true_gender = item.get("gender")
             X.append([password, first_name, true_gender])
