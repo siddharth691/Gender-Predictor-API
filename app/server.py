@@ -8,6 +8,7 @@ from tornado.options import options
 
 from sklearn.externals import joblib
 
+from app.settings import MODEL_DIR
 from app.settings import MAX_UPDATE_MODEL_TIME
 from app.handler import IndexHandler, GenderPredictionHandler, ModelUpdateHandler
 
@@ -27,19 +28,21 @@ def main():
     options.parse_command_line()
 
 
-    logger = logging.getLogger('server')
+    logger = logging.getLogger('app')
+    logger.setLevel(logging.INFO)
+
+    FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    logging.basicConfig(filename = '/home/ubuntu/Gender-Prediction-API/app.log', format=FORMAT)
 
     # Load ML Models
     logger.info("Loading Gender Prediction Model...")
-    
-    MODEL_DIR = '/home/ubuntu/Gender-Predictor-API/model'
     MODELS["gender"] = load_model(os.path.join(MODEL_DIR, "model.pkl"))
 
     urls = [
         (r"/$", IndexHandler),
         (r"/api/gender/(?P<action>[a-zA-Z]+)?", GenderPredictionHandler,
-            dict(model=MODELS["gender"])),
-        (r"/gender-api/model/(?P<action>[a-zA-Z]+)?", ModelUpdateHandler)
+            dict(model=MODELS["gender"]))
+        (r"/gender-api/(?U<action>[a-zA-Z]+)?", ModelUpdateHandler)
     ]
 
     # Create Tornado application

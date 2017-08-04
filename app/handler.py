@@ -12,7 +12,7 @@ from app.base_handler import BaseApiHandler
 from app.exceptions import AuthError
 from app.settings import MAX_MODEL_THREAD_POOL
 from ml_code.FeatureExtraction import FeatureExtraction
-
+logger = logging.getLogger('app')
 
 class IndexHandler(tornado.web.RequestHandler):
     """APP is live"""
@@ -26,7 +26,7 @@ class IndexHandler(tornado.web.RequestHandler):
 
 class GenderPredictionHandler(BaseApiHandler):
 
-      
+    
     _thread_pool = ThreadPoolExecutor(max_workers=MAX_MODEL_THREAD_POOL)
 
     def initialize(self, model, *args, **kwargs):
@@ -60,35 +60,34 @@ class GenderPredictionHandler(BaseApiHandler):
         results = yield self._blocking_predict(X)
         self.respond(results)
 
-	
-class ModelUpdateHandler(BaseApiHandler):
-   
- 
 
+class ModelUpdateHandler(BaseApiHandler):
     _thread_pool = ThreadPoolExecutor(max_workers=MAX_MODEL_THREAD_POOL)
     
-    def initialize(self, *args, **kwargs):
+    def initialize(self, model, *args, **kwargs):
         super().initialize(*args, **kwargs)
-    
+
     @concurrent.run_on_executor(executor='_thread_pool')
     def _blocking_update(self, X):
-	
+    
         results = []
-        true_pass = open('pass_file.txt', 'r').read()
+        true_pass = open('/home/ubuntu/Gender-Prediction-API/app/pass_file.txt', 'r').read()
         
         for nameGender in X:
 
             if(nameGender[0]!=true_pass):
 
                 logger.info(" Rejecting update request because of authentication error")
-        	
+            
                 raise AuthError
             
             else:
-                with open('../ml_code/update_data.csv', 'a') as file:
-                    file.write(nameGender[1] + ','+ nameGender[2]+'\n')
-                target_show = 'Successfully updated the update data'
-                results.append(target_show)
+
+                with open('/home/ubuntu/Gender-Prediction-API/ml_code/update_data.csv', 'a') as file:
+
+                file.write(nameGender[1] + ','+ nameGender[2]+'\n')
+            target_show = 'Successfully updated the update data'
+            results.append(target_show)
         
         return results
 
